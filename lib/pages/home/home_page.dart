@@ -4,6 +4,7 @@ import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:loja_virtual/widgets/title_widget.dart';
 
 class HomePage extends StatefulWidget {
   final PageController pageController;
@@ -22,9 +23,36 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState({Key key, this.pageController});
 
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < imgList.length; i++){
+      _listCurrentSlider.add(0);
+    }
+  }
+
   Future<String> _refresList() async {
     return "";
   }
+
+  List<T> map<T>(List list, Function handler) {
+    List<T> result = [];
+    for (var i = 0; i < list.length; i++) {
+      result.add(handler(i, list[i]));
+    }
+    return result;
+  }
+
+  final List<String> imgList = [
+    "images/produtos/2/1.jpg",
+    "images/produtos/2/2.jpg",
+    "images/produtos/2/3.jpg",
+    "images/produtos/2/4.jpg",
+    "images/produtos/2/5.jpg",
+    "images/produtos/2/6.jpg",
+    "images/produtos/2/7.jpg"
+  ];
+  List<int> _listCurrentSlider = new List<int>();
 
   Widget _widgetMenuSide(BuildContext context, String photo){
     return InkWell(
@@ -88,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(left: 50.0),
+                        margin: EdgeInsets.only(left: 30.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -123,7 +151,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.red,
           child: Stack(
             children: <Widget>[
-              Container(
+              /*Container(
                 height: 250.0,
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -131,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                         fit: BoxFit.cover
                     )
                 ),
-              ),
+              ),*/
               CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
@@ -202,15 +230,7 @@ class _HomePageState extends State<HomePage> {
                           autoPlayAnimationDuration: Duration(milliseconds: 800),
                           pauseAutoPlayOnTouch: Duration(seconds: 10),
                           autoPlayCurve: Curves.fastOutSlowIn,
-                          items: [
-                            "images/produtos/2/1.jpg",
-                            "images/produtos/2/2.jpg",
-                            "images/produtos/2/3.jpg",
-                            "images/produtos/2/4.jpg",
-                            "images/produtos/2/5.jpg",
-                            "images/produtos/2/6.jpg",
-                            "images/produtos/2/7.jpg"
-                          ].map((i) {
+                          items: imgList.map((i) {
                             return Builder(
                               builder: (BuildContext context) {
                                 return Container(
@@ -249,29 +269,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 10.0),
-                            child: Text("|",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[700]
-                              ),
-                            ),
-                          ),
-                          Text("Novidades",
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20.0,
-                              color: Colors.grey
-                            ),
-                          )
-                        ],
-                      ),
+                      TitleWidget("Novidades"),
                       Container(
                         height: 130.0,
                         margin: EdgeInsets.all(10.0),
@@ -284,6 +282,128 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
                     ])
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((BuildContext context, int index){
+                      return  Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        margin: EdgeInsets.only(left: 10.0, right: 10.0, top: index == 0 ? 10.0 : 5.0, bottom: index == 19 ? 10.0 : 5.0,),
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            children: <Widget>[
+                              Text("Produto xyz",
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    color: Colors.grey[700],
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Stack(
+                                children: <Widget>[
+                                  Container(
+                                    child: Column(children: <Widget>[
+                                      CarouselSlider(
+                                        viewportFraction: 1.0,
+                                        height: 200.0,
+                                        aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                                        autoPlay: true,
+                                        reverse: index == 2 ? false : true,
+                                        scrollDirection: index.isEven ? Axis.horizontal : Axis.vertical,
+                                        autoPlayInterval: Duration(seconds: 3),
+                                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                        pauseAutoPlayOnTouch: Duration(seconds: 10),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        onPageChanged: (i) {
+                                          setState(() {
+                                            _listCurrentSlider[index]= i;
+                                          });
+                                        },
+                                        items: imgList.map((i) {
+                                          return Builder(
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                height: 200.0,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage(i),
+                                                      fit: BoxFit.cover
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }).toList(),
+                                      ),
+                                      SizedBox(height: 10.0,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            children: map<Widget>(
+                                              imgList,
+                                              (i, url) {
+                                                return Container(
+                                                  width: 8.0,
+                                                  height: 8.0,
+                                                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: _listCurrentSlider[index] == i
+                                                          ? Color.fromRGBO(0, 0, 0, 0.9)
+                                                          : Color.fromRGBO(0, 0, 0, 0.4)),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          Text("R\$ 150,99",
+                                            style: TextStyle(
+                                                fontFamily: "Roboto",
+                                                fontSize: 18.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey[700]
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],),
+                                  ),
+                                  Positioned(
+                                    right: 5.0,
+                                    top: 5.0,
+                                    child: Icon(Icons.favorite,color: Colors.pink,),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(Icons.star, color: Colors.pink,),
+                                      Icon(Icons.star, color: Colors.pink,),
+                                      Icon(Icons.star, color: Colors.pink,),
+                                      Icon(Icons.star_border, color: Colors.pink,),
+                                      Icon(Icons.star_border, color: Colors.pink,),
+                                    ],
+                                  ),
+                                  Icon(Icons.add_shopping_cart, color: Colors.red,)
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: 1),
                   )
                 ],
               )
