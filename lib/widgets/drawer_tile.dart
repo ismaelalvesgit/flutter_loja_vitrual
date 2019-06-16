@@ -8,7 +8,7 @@ class DrawerTile extends StatelessWidget {
   final PageController controller;
   final int page;
 
-  DrawerTile(this.icon, this.text, this.controller, this.page);
+  DrawerTile([this.icon, this.text, this.controller, this.page]);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class DrawerTile extends StatelessWidget {
             children: <Widget>[
               Icon(
                 icon,
-                size: 21.0,
+                size: 25.0,
                 color: controller.page.round() == page ?
                 Theme.of(context).primaryColor : Colors.grey[700],
               ),
@@ -33,7 +33,7 @@ class DrawerTile extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 18.0,
                   color: controller.page.round() == page ?
                   Theme.of(context).primaryColor : Colors.grey[700],
                 ),
