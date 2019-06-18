@@ -1,4 +1,3 @@
-import 'package:loja_virtual/pages/index_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerTile extends StatelessWidget {

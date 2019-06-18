@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loja_virtual/pages/acesso/input_masked_format.dart';
-import 'package:loja_virtual/pages/index_page.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,7 +13,6 @@ class _ResetPageState extends State<ResetPage> {
   final _keyScaffold = GlobalKey<ScaffoldState>();
   final _keyForm = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
 
   @override
   void initState() {

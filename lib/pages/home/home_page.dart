@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 
+//@Author Ismael Alves
 class HomePage extends StatefulWidget {
   final PageController pageController;
 
@@ -26,9 +26,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < imgList.length; i++){
+    for (int i = 0; i < 6; i++){
       _listCurrentSlider.add(0);
     }
+    print(_listCurrentSlider);
   }
 
   Future<String> _refresList() async {
@@ -210,9 +211,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SliverList(
                       delegate: SliverChildListDelegate([
-                        Container(
-                          height: 170.0,
+                      Container(
+                        height: 250.0,
+                        decoration: BoxDecoration(
+                        image: DecorationImage(
+                        image: AssetImage("images/home.jpeg"),
+                        fit: BoxFit.cover
+                          )
                         )
+                      )
                       ])
                   ),
                   SliverStaggeredGrid.countBuilder(
@@ -294,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.all(10.0),
                           child: Column(
                             children: <Widget>[
-                              Text("Produto xyz",
+                              Text("Produto xyz $index",
                                 style: TextStyle(
                                     fontFamily: "Roboto",
                                     color: Colors.grey[700],
@@ -310,21 +317,15 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     child: Column(children: <Widget>[
                                       CarouselSlider(
-                                        viewportFraction: 1.0,
                                         height: 200.0,
+                                        viewportFraction: 1.0,
                                         aspectRatio: MediaQuery.of(context).size.aspectRatio,
                                         autoPlay: true,
-                                        reverse: index == 2 ? false : true,
                                         scrollDirection: index.isEven ? Axis.horizontal : Axis.vertical,
                                         autoPlayInterval: Duration(seconds: 3),
                                         autoPlayAnimationDuration: Duration(milliseconds: 800),
                                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                                         autoPlayCurve: Curves.fastOutSlowIn,
-                                        onPageChanged: (i) {
-                                          setState(() {
-                                            _listCurrentSlider[index]= i;
-                                          });
-                                        },
                                         items: imgList.map((i) {
                                           return Builder(
                                             builder: (BuildContext context) {
@@ -341,11 +342,12 @@ class _HomePageState extends State<HomePage> {
                                           );
                                         }).toList(),
                                       ),
-                                      SizedBox(height: 10.0,),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Row(
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            /* Row(
                                             children: map<Widget>(
                                               imgList,
                                               (i, url) {
@@ -361,17 +363,18 @@ class _HomePageState extends State<HomePage> {
                                                 );
                                               },
                                             ),
-                                          ),
-                                          Text("R\$ 150,99",
-                                            style: TextStyle(
-                                                fontFamily: "Roboto",
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[700]
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                          ),*/
+                                            Text("R\$ 150,99",
+                                              style: TextStyle(
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey[700]
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
                                     ],),
                                   ),
                                   Positioned(
@@ -403,7 +406,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    childCount: 1),
+                    childCount: 6),
                   )
                 ],
               )

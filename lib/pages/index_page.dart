@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/pages/home/home_page.dart';
+import 'package:loja_virtual/pages/acesso/login/login_page.dart';
+import 'package:loja_virtual/pages/acesso/cadastro/cadastro_page.dart';
+import 'package:loja_virtual/pages/acesso/reset/reset_page.dart';
 
 //@Author Ismael Alves
 class IndexPage extends StatefulWidget {
@@ -32,6 +35,9 @@ class _IndexPageState extends State<IndexPage> {
         children: <Widget>[
           //home page
           HomePage(pageController: _pageController,)
+          //LoginPage()
+          //CadastroPage()
+          //ResetPage()
         ],
       ),
     );

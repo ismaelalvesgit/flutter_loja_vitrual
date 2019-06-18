@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/pages/index_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+//@Author Ismael Alves
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

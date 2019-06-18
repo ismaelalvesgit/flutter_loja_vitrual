@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loja_virtual/pages/acesso/input_masked_format.dart';
-import 'package:loja_virtual/pages/index_page.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
