@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/drawer_widget.dart';
@@ -21,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = new ScrollController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  StreamController<Map<String, int>> streamController = new StreamController();
+
   _HomePageState({Key key, this.pageController});
 
   @override
@@ -29,7 +33,17 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < 6; i++){
       _listCurrentSlider.add(0);
     }
-    print(_listCurrentSlider);
+    streamController.stream.listen((data){
+      setState(() {
+        _listCurrentSlider[data['index']] = data['slide'];
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    streamController.close(); //Streams must be closed when not needed
+    super.dispose();
   }
 
   Future<String> _refresList() async {
@@ -321,11 +335,13 @@ class _HomePageState extends State<HomePage> {
                                         viewportFraction: 1.0,
                                         aspectRatio: MediaQuery.of(context).size.aspectRatio,
                                         autoPlay: true,
-                                        scrollDirection: index.isEven ? Axis.horizontal : Axis.vertical,
                                         autoPlayInterval: Duration(seconds: 3),
                                         autoPlayAnimationDuration: Duration(milliseconds: 800),
                                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                                         autoPlayCurve: Curves.fastOutSlowIn,
+                                        onPageChanged: (i) {
+                                           streamController.sink.add({'index':index, 'slide':i});
+                                        },
                                         items: imgList.map((i) {
                                           return Builder(
                                             builder: (BuildContext context) {
@@ -345,26 +361,26 @@ class _HomePageState extends State<HomePage> {
                                       Container(
                                         margin: EdgeInsets.only(top: 10.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            /* Row(
-                                            children: map<Widget>(
-                                              imgList,
-                                              (i, url) {
-                                                return Container(
-                                                  width: 8.0,
-                                                  height: 8.0,
-                                                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                                                  decoration: BoxDecoration(
+                                            Row(
+                                              children: map<Widget>(
+                                                imgList,
+                                                (i, url) {
+                                                  return Container(
+                                                    width: 8.0,
+                                                    height: 8.0,
+                                                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                                    decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color: _listCurrentSlider[index] == i
-                                                          ? Color.fromRGBO(0, 0, 0, 0.9)
-                                                          : Color.fromRGBO(0, 0, 0, 0.4)),
-                                                );
-                                              },
+                                                        ? Color.fromRGBO(0, 0, 0, 0.9)
+                                                        : Color.fromRGBO(0, 0, 0, 0.4)),
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                          ),*/
-                                            Text("R\$ 150,99",
+                                            Text("${_listCurrentSlider[0]}",
                                               style: TextStyle(
                                                   fontFamily: "Roboto",
                                                   fontSize: 18.0,
