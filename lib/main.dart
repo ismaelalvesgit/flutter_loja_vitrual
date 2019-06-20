@@ -3,6 +3,7 @@ import 'package:loja_virtual/pages/index_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:loja_virtual/bloc/slider_bloc.dart';
+import 'package:loja_virtual/widgets/produto_detalhe_widget.dart';
 //@Author Ismael Alves
 void main() => runApp(MyApp());
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.red,
             primarySwatch: Colors.grey,
           ),
-          home: IndexPage()
+          home: ProdutoPage()
       ),
     );
   }

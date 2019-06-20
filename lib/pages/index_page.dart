@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/pages/home/home_page.dart';
 import 'package:loja_virtual/pages/departamentos/departamentos_page.dart';
+import 'package:loja_virtual/pages/favoritos/favoritos_page.dart';
 
 //@Author Ismael Alves
 class IndexPage extends StatefulWidget {
@@ -35,7 +36,10 @@ class _IndexPageState extends State<IndexPage> {
           HomePage(pageController: _pageController,),
 
           //Departamentoa Page
-          DepartamentosPage(pageController: _pageController,)
+          DepartamentosPage(pageController: _pageController,),
+
+          //Favoritos Page
+          FavoritosPage(pageController: _pageController,),
         ],
       ),
     );

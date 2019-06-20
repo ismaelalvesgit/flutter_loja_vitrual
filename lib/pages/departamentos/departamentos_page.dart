@@ -3,6 +3,7 @@ import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 
+//@Author Ismael Alves
 class DepartamentosPage extends StatefulWidget {
   final PageController pageController;
 
@@ -21,7 +22,6 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
     return WillPopScope(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: DrawerWidget(pageController),
         appBar: AppBar(
           title: Text("Departamentos"),
           leading: IconButton(
