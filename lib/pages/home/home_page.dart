@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/bloc/slider_bloc.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -22,30 +23,7 @@ class _HomePageState extends State<HomePage> {
   final PageController pageController;
   final ScrollController _scrollController = new ScrollController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  StreamController<Map<String, int>> streamController = new StreamController();
-
-  _HomePageState({Key key, this.pageController});
-
-  @override
-  void initState() {
-    super.initState();
-    for (int i = 0; i < 6; i++){
-      _listCurrentSlider.add(0);
-    }
-    streamController.stream.listen((data){
-      setState(() {
-        _listCurrentSlider[data['index']] = data['slide'];
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    streamController.close(); //Streams must be closed when not needed
-    super.dispose();
-  }
-
+  final SliderBloc bloc = BlocProvider.getBloc<SliderBloc>();
   Future<String> _refresList() async {
     return "";
   }
@@ -67,96 +45,22 @@ class _HomePageState extends State<HomePage> {
     "images/produtos/2/6.jpg",
     "images/produtos/2/7.jpg"
   ];
-  List<int> _listCurrentSlider = new List<int>();
 
-  Widget _widgetMenuSide(BuildContext context, String photo){
-    return InkWell(
-      onTap: (){},
-      borderRadius: BorderRadius.circular(25.0),
-      splashColor: Colors.red,
-      child: Container(
-        height: 70.0,
-        width: 70.0,
-        padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: Image.asset(photo),
-      ),
-    );
+  _HomePageState({Key key, this.pageController});
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < 6; i++){
+      bloc.inicialize();
+    }
   }
 
-  Widget _widgetCardProduct(BuildContext context, String photo){
-    return InkWell(
-      onTap: (){},
-      borderRadius: BorderRadius.circular(1.0),
-      splashColor: Colors.red,
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: 100.0,
-                width: 100.0,
-                margin: EdgeInsets.only(right: 10.0),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(photo),
-                        fit: BoxFit.cover
-                    ),
-                    borderRadius: BorderRadius.circular(50.0)
-                ),
-              ),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Tenis Nike",
-                      style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontSize: 18.0,
-                          color: Colors.grey[700]
-                      ),
-                    ),
-                    Text("R\$ 150,00",
-                      style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontSize: 18.0,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 30.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Icon(Icons.star, color: Colors.red,),
-                            Icon(Icons.star, color: Colors.red,),
-                            Icon(Icons.star, color: Colors.red,),
-                            Icon(Icons.star_border, color: Colors.grey[700],),
-                            Icon(Icons.star_border, color: Colors.grey[700],),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       child: Scaffold(
         key: _scaffoldKey,
@@ -290,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      TitleWidget("Novidades"),
+                      TitleWidget(text: "Novidades",),
                       Container(
                         height: 130.0,
                         margin: EdgeInsets.all(10.0),
@@ -340,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         onPageChanged: (i) {
-                                           streamController.sink.add({'index':index, 'slide':i});
+                                           bloc.change(index, i);
                                         },
                                         items: imgList.map((i) {
                                           return Builder(
@@ -361,26 +265,36 @@ class _HomePageState extends State<HomePage> {
                                       Container(
                                         margin: EdgeInsets.only(top: 10.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: <Widget>[
-                                            Row(
-                                              children: map<Widget>(
-                                                imgList,
-                                                (i, url) {
-                                                  return Container(
-                                                    width: 8.0,
-                                                    height: 8.0,
-                                                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: _listCurrentSlider[index] == i
-                                                        ? Color.fromRGBO(0, 0, 0, 0.9)
-                                                        : Color.fromRGBO(0, 0, 0, 0.4)),
+                                            /*StreamBuilder(
+                                              stream: bloc.outIndicators,
+                                              builder: (BuildContext context, snapshot){
+                                                print(snapshot.data);
+                                                if(snapshot.hasData){
+                                                  return Row(
+                                                    children: map<Widget>(
+                                                      imgList,
+                                                          (i, url) {
+                                                        return Container(
+                                                          width: 8.0,
+                                                          height: 8.0,
+                                                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              color: bloc.indicators[index] == i
+                                                                  ? Color.fromRGBO(0, 0, 0, 0.9)
+                                                                  : Color.fromRGBO(0, 0, 0, 0.4)),
+                                                        );
+                                                      },
+                                                    ),
                                                   );
-                                                },
-                                              ),
-                                            ),
-                                            Text("${_listCurrentSlider[0]}",
+                                                }else{
+                                                  return CircularProgressIndicator();
+                                                }
+                                              },
+                                            ),*/
+                                            Text("R\$ 150,90",
                                               style: TextStyle(
                                                   fontFamily: "Roboto",
                                                   fontSize: 18.0,
@@ -396,7 +310,9 @@ class _HomePageState extends State<HomePage> {
                                   Positioned(
                                     right: 5.0,
                                     top: 5.0,
-                                    child: Icon(Icons.favorite,color: Colors.pink,),
+                                    child: IconButton(onPressed: (){},
+                                      icon: Icon(index.isEven ? Icons.favorite : Icons.favorite_border,color: Colors.pink,),
+                                    )
                                   )
                                 ],
                               ),
@@ -433,4 +349,90 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () => UtilServices.onBackPressed(context)
     );
   }
+}
+
+Widget _widgetMenuSide(BuildContext context, String photo){
+  return InkWell(
+    onTap: (){},
+    borderRadius: BorderRadius.circular(25.0),
+    splashColor: Colors.red,
+    child: Container(
+      height: 70.0,
+      width: 70.0,
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(50.0),
+      ),
+      child: Image.asset(photo),
+    ),
+  );
+}
+
+Widget _widgetCardProduct(BuildContext context, String photo){
+  return InkWell(
+    onTap: (){},
+    borderRadius: BorderRadius.circular(1.0),
+    splashColor: Colors.red,
+    child: Card(
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: 100.0,
+              width: 100.0,
+              margin: EdgeInsets.only(right: 10.0),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(photo),
+                      fit: BoxFit.cover
+                  ),
+                  borderRadius: BorderRadius.circular(50.0)
+              ),
+            ),
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Tenis Nike",
+                    style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        color: Colors.grey[700]
+                    ),
+                  ),
+                  Text("R\$ 150,00",
+                    style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 30.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Icon(Icons.star, color: Colors.red,),
+                          Icon(Icons.star, color: Colors.red,),
+                          Icon(Icons.star, color: Colors.red,),
+                          Icon(Icons.star_border, color: Colors.grey[700],),
+                          Icon(Icons.star_border, color: Colors.grey[700],),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
