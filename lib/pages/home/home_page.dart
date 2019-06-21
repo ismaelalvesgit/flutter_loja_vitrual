@@ -7,6 +7,7 @@ import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
+import 'package:loja_virtual/widgets/produto_detalhe_widget.dart';
 
 //@Author Ismael Alves
 class HomePage extends StatefulWidget {
@@ -194,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      TitleWidget(text: "Novidades",),
+                      TitleWidget(text: "Novidades", marginLeft: 10.0,),
                       Container(
                         height: 130.0,
                         margin: EdgeInsets.all(10.0),
@@ -372,7 +373,9 @@ Widget _widgetMenuSide(BuildContext context, String photo){
 
 Widget _widgetCardProduct(BuildContext context, String photo){
   return InkWell(
-    onTap: (){},
+    onTap: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> ProdutoPage()));
+    },
     borderRadius: BorderRadius.circular(1.0),
     splashColor: Colors.red,
     child: Card(

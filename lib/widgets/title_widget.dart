@@ -27,7 +27,6 @@ class TitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: 10.0),
             child: Text("|",
               style: TextStyle(
                   fontSize: fontSize != null ? fontSize-2.0 : 18.0,
