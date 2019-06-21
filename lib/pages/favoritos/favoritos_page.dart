@@ -29,8 +29,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
+    return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text("Favoritos"),
@@ -51,8 +50,6 @@ class _FavoritosPageState extends State<FavoritosPage> {
             }
           },
         )
-      ),
-      onWillPop: () => UtilServices.onBackPressed(context),
     );
   }
 

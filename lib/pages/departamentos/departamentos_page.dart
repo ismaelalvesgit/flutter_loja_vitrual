@@ -32,7 +32,7 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
         ),
         body: ListView(
           children: <Widget>[
-            TitleWidget(text: "Destaques", fontSize: 20.0, marginTop: 10.0,),
+            TitleWidget(text: "Destaques", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)
@@ -47,7 +47,7 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
               ),
             ),
 
-            TitleWidget(text: "Departamentos", fontSize: 20.0, marginTop: 10.0,),
+            TitleWidget(text: "Departamentos", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)
@@ -64,7 +64,7 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
           ],
         ),
       ),
-      onWillPop: () => UtilServices.onBackPressed(context)
+      onWillPop: () => pageController.previousPage(duration: Duration(milliseconds: 800), curve: Curves.elasticOut)
     );
   }
 }
