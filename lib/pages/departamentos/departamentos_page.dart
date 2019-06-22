@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/widgets/drawer_widget.dart';
-import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 
 //@Author Ismael Alves
@@ -31,6 +29,7 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
           centerTitle: true,
         ),
         body: ListView(
+          controller: _scrollController,
           children: <Widget>[
             TitleWidget(text: "Destaques", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
             Card(
@@ -64,7 +63,7 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
           ],
         ),
       ),
-      onWillPop: () => pageController.previousPage(duration: Duration(milliseconds: 800), curve: Curves.elasticOut)
+      onWillPop: () => pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceOut)
     );
   }
 }

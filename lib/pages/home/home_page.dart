@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),*/
               CustomScrollView(
+                controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
                     floating: true,

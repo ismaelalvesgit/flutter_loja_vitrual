@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -29,27 +28,31 @@ class _FavoritosPageState extends State<FavoritosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text("Favoritos"),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: ()=> pageController.jumpToPage(0),
-            icon: Icon(Icons.arrow_back_ios),
+    return WillPopScope(
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            title: Text("Favoritos"),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: ()=> pageController.jumpToPage(0),
+              icon: Icon(Icons.arrow_back_ios),
+            ),
           ),
-        ),
-        body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index){
-            if(index == 0){
-              return TitleWidget(text: "Favoritos", fontSize: 20.0, marginTop: 10.0,);
-            }else {
-              return _widgetCardFavorite(context, index);
-            }
-          },
-        )
+          body: ListView.builder(
+            controller: _scrollController,
+            shrinkWrap: true,
+            itemCount: 5,
+            itemBuilder: (BuildContext context, int index){
+              if(index == 0){
+                return TitleWidget(text: "Favoritos", fontSize: 20.0, marginTop: 10.0,);
+              }else {
+                return _widgetCardFavorite(context, index);
+              }
+            },
+          )
+      ),
+      onWillPop: ()=> pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceInOut)
     );
   }
 
