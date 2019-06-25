@@ -1,3 +1,4 @@
+import 'package:loja_virtual/pages/configuracao/configuracao_page.dart';
 import 'package:loja_virtual/widgets/divider_widget.dart';
 import 'package:loja_virtual/widgets/drawer_tile.dart';
 import 'package:flutter/material.dart';
@@ -143,14 +144,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           child: Stack(
             children: <Widget>[
               _widgetBackgroundMenu(),
-             Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: IconButton(
-                  icon:Icon(Icons.settings, color: Colors.white,),
-                  onPressed: null
-                )
-             ),
              Row(
                mainAxisAlignment: MainAxisAlignment.center,
                children: <Widget>[
@@ -176,7 +169,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                    ],
                  )
                ],
-             )
+             ),
+              Positioned(
+                  top: 0.0,
+                  right: 0.0,
+                  child: IconButton(
+                      icon:Icon(Icons.settings, color: Colors.white,),
+                      color: Colors.red,
+                      onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ConfiguracaoPage(pageController: pageController,)))
+                  )
+              ),
             ],
           ),
         ),
