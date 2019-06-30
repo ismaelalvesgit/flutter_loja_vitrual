@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/widgets/backgroud_widget.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 
 //@Author Ismael Alves
@@ -28,42 +29,49 @@ class _DepartamentosPageState extends State<DepartamentosPage> {
           ),
           centerTitle: true,
         ),
-        body: ListView(
-          controller: _scrollController,
+        body: Stack(
           children: <Widget>[
-            TitleWidget(text: "Destaques", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)
-              ),
-              margin: EdgeInsets.all(10.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index){
-                  return _widgetTile("Departamento$index", Colors.red, "images/menu/fashion.png");
-                },
-              ),
-            ),
+            BackgroundWidget(),
+            ListView(
+              controller: _scrollController,
+              children: <Widget>[
+                TitleWidget(text: "Destaques", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  margin: EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 3,
+                    itemBuilder: (BuildContext context, int index){
+                      return _widgetTile("Departamento$index", Colors.red, "images/menu/fashion.png");
+                    },
+                  ),
+                ),
 
-            TitleWidget(text: "Departamentos", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)
-              ),
-              margin: EdgeInsets.all(10.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index){
-                  return _widgetTile("Departamento$index", Colors.grey[700], "images/menu/fashion.png");
-                },
-              ),
+                TitleWidget(text: "Departamentos", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  margin: EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 3,
+                    itemBuilder: (BuildContext context, int index){
+                      return _widgetTile("Departamento$index", Colors.grey[700], "images/menu/fashion.png");
+                    },
+                  ),
+                )
+              ],
             )
           ],
         ),
       ),
-      onWillPop: () => pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceOut)
+      onWillPop: (){
+        pageController.jumpToPage(0);
+      }
     );
   }
 }

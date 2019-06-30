@@ -4,16 +4,22 @@ import 'package:loja_virtual/pages/home/home_page.dart';
 import 'package:loja_virtual/pages/departamentos/departamentos_page.dart';
 import 'package:loja_virtual/pages/favoritos/favoritos_page.dart';
 import 'package:loja_virtual/pages/meusPedidos/meus_pedidos_page.dart';
+import 'package:loja_virtual/pages/produtos/produtos_page.dart';
 
 //@Author Ismael Alves
 class IndexPage extends StatefulWidget {
+  final bool produtos;
+
+  const IndexPage({Key key, this.produtos}) : super(key: key);
+
   @override
-  _IndexPageState createState() => _IndexPageState();
+  _IndexPageState createState() => _IndexPageState(produtos: this.produtos);
 }
 
 class _IndexPageState extends State<IndexPage> {
-
+  final bool produtos;
   PageController _pageController;
+  _IndexPageState({Key key, this.produtos});
 
   @override
   void initState() {
@@ -35,7 +41,7 @@ class _IndexPageState extends State<IndexPage> {
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           //Home Page
-          HomePage(pageController: _pageController,),
+          produtos ? ProdutosPage(pageController: _pageController,): HomePage(pageController: _pageController,),
 
           //Departamentoa Page
           DepartamentosPage(pageController: _pageController,),

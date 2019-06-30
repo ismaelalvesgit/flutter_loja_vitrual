@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/widgets/backgroud_widget.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -16,6 +17,10 @@ class _FavoritosPageState extends State<FavoritosPage> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   _FavoritosPageState({Key key, this.pageController});
 
+  Future<String> _refreshList() async {
+    return "";
+  }
+
   final List<String> imgList = [
     "images/produtos/2/1.jpg",
     "images/produtos/2/2.jpg",
@@ -29,30 +34,53 @@ class _FavoritosPageState extends State<FavoritosPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      child: RefreshIndicator(
+        color: Colors.red,
+        backgroundColor: Colors.white,
         child: Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-            title: Text("Favoritos"),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: ()=> pageController.jumpToPage(0),
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-          ),
-          body: ListView.builder(
-            controller: _scrollController,
-            shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index){
-              if(index == 0){
-                return TitleWidget(text: "Favoritos", fontSize: 20.0, marginTop: 10.0,);
-              }else {
-                return _widgetCardFavorite(context, index);
-              }
-            },
-          )
-      ),
-      onWillPop: ()=> pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceInOut)
+            key: _scaffoldKey,
+            body: Stack(
+              children: <Widget>[
+                BackgroundWidget(),
+                CustomScrollView(
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      leading: IconButton(
+                        onPressed: ()=> pageController.jumpToPage(0),
+                        icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+                      ),
+                      title: InkWell(
+                        onTap: (){
+                          _scrollController.animateTo(0.0, duration: Duration(milliseconds: 800), curve: Curves.decelerate);
+                        },
+                        borderRadius: BorderRadius.circular(10.0),
+                        splashColor: Colors.white,
+                        child: Text("Favoritos"),
+                      ),
+                      centerTitle: true,
+                    ),
+                    SliverToBoxAdapter(
+                      child: TitleWidget(text: "Favoritos", fontSize: 20.0, marginTop: 10.0, marginLeft: 10.0,),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((BuildContext context, int index){
+                        return _widgetCardFavorite(context, index);
+                      },
+                          childCount: 5
+                      ),
+                    )
+                  ],
+                )
+              ],
+            )
+        ),
+      onRefresh: _refreshList),
+      onWillPop: (){
+        pageController.jumpToPage(0);
+      }
     );
   }
 

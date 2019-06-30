@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/pages/index_page.dart';
 
 class DrawerTile extends StatelessWidget {
 
@@ -16,7 +17,11 @@ class DrawerTile extends StatelessWidget {
       child: InkWell(
         onTap: (){
           Navigator.of(context).pop();
-          controller.jumpToPage(page);
+          if(page == 99){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> IndexPage(produtos: false,)));
+          }else{
+            controller.jumpToPage(page);
+          }
         },
         child: Container(
           height: 50.0,

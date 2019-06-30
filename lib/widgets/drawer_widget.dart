@@ -6,17 +6,18 @@ import 'package:flutter/material.dart';
 class DrawerWidget extends StatefulWidget {
 
   final PageController pageController;
+  final bool produtos;
 
-  DrawerWidget(this.pageController);
+  DrawerWidget({@required this.pageController, this.produtos});
 
   @override
-  _DrawerWidgetState createState() => _DrawerWidgetState(this.pageController);
+  _DrawerWidgetState createState() => _DrawerWidgetState(this.pageController, this.produtos);
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
 
   final PageController pageController;
-
+  final bool produtos;
   bool isRole;
 
   @override
@@ -25,7 +26,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   }
 
-  _DrawerWidgetState(this.pageController);
+  _DrawerWidgetState(this.pageController, this.produtos);
 
   Widget _buildDrawerBack() => Container(
     decoration: BoxDecoration(
@@ -46,7 +47,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          DrawerTile(Icons.home, "Destaques", pageController, 0),
+          DrawerTile(produtos != null ? Icons.home : Icons.new_releases, produtos != null ? "Produtos" : "Destaques", pageController, 0),
+          produtos != null ? DrawerTile(Icons.new_releases, "Destaques", pageController, 99): Container(height: 0.0,width: 0.0,),
           DrawerTile(Icons.list, "Departamentos", pageController, 1),
           DrawerTile(Icons.favorite_border, "Favoritos", pageController, 2),
           DrawerTile(Icons.shopping_basket, "Meus Pedidos", pageController, 3),

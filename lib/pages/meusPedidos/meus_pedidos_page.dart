@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/pages/meusPedidos/meus_pedidos_detalhe_page.dart';
+import 'package:loja_virtual/widgets/backgroud_widget.dart';
 import 'package:loja_virtual/widgets/divider_widget.dart';
 import 'package:loja_virtual/widgets/title_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,83 +24,82 @@ class _MeusPedidosPageState extends State<MeusPedidosPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-          key: _scaffoldKey,
-          body: NestedScrollView(
+        key: _scaffoldKey,
+        body:Stack(
+          children: <Widget>[
+            BackgroundWidget(),
+            CustomScrollView(
               controller: _scrollController,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-                return <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Colors.transparent,
-                    expandedHeight: 200.0,
-                    leading: IconButton(
-                      onPressed: ()=> pageController.jumpToPage(0),
-                      icon: Icon(Icons.arrow_back_ios),
-                    ),
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage("images/backgroun-menu.jpg"),
-                                  fit: BoxFit.cover
-                              ),
+              slivers: <Widget>[
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  expandedHeight: 200.0,
+                  leading: IconButton(
+                    onPressed: ()=> pageController.jumpToPage(0),
+                    icon: Icon(Icons.arrow_back_ios),
+                  ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage("images/backgroun-menu.jpg"),
+                                fit: BoxFit.cover
                             ),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                height: 100.0,
-                                width: 100.0,
-                                margin: EdgeInsets.only(bottom: 10.0),
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage("images/box.png"),
-                                  ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 100.0,
+                              width: 100.0,
+                              margin: EdgeInsets.only(bottom: 10.0),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(image: AssetImage("images/box.png"),
                                 ),
                               ),
-                              Text("Meus Pedidos",
-                                style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 20.0,
-                                    color: Colors.white
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
+                            Text("Meus Pedidos",
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 20.0,
+                                  color: Colors.white
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                ];
-              },
-              body: CustomScrollView(
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child:  TitleWidget(text: "Pedidos Abertos", fontSize: 25.0, marginLeft: 10.0, marginTop: 10.0,),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index){
+                ),
+                SliverToBoxAdapter(
+                  child:  TitleWidget(text: "Pedidos Abertos", fontSize: 25.0, marginLeft: 10.0, marginTop: 10.0,),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index){
                         return  _widgetCardOrder(context, index);
                       },
                       childCount: 2
-                    ),
                   ),
-                  SliverToBoxAdapter(
-                    child:  TitleWidget(text: "Pedidos Finalizados", fontSize: 25.0, marginBottom: 10.0, marginLeft: 10.0, marginTop: 20.0,),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index){
+                ),
+                SliverToBoxAdapter(
+                  child:  TitleWidget(text: "Pedidos Finalizados", fontSize: 25.0, marginBottom: 10.0, marginLeft: 10.0, marginTop: 20.0,),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index){
                         return  _widgetCardOrder(context, index);
                       },
                       childCount: 2
-                    ),
-                  )
-                ],
-              )
-          )
+                  ),
+                )
+              ],
+            )
+          ],
+        )
       ),
       onWillPop: ()=> pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceOut));
   }

@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/bloc/slider_bloc.dart';
+import 'package:loja_virtual/pages/carrinho/carrinho_page.dart';
+import 'package:loja_virtual/pages/index_page.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
+import 'package:loja_virtual/widgets/backgroud_widget.dart';
 import 'package:loja_virtual/widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -25,7 +28,9 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = new ScrollController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final SliderBloc bloc = BlocProvider.getBloc<SliderBloc>();
-  Future<String> _refresList() async {
+  _HomePageState({Key key, this.pageController});
+
+  Future<String> _refreshList() async {
     return "";
   }
 
@@ -47,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     "images/produtos/2/7.jpg"
   ];
 
-  _HomePageState({Key key, this.pageController});
+
 
   @override
   void initState() {
@@ -58,28 +63,19 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
 
     return WillPopScope(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: DrawerWidget(pageController),
+        drawer: DrawerWidget(pageController: pageController,),
         body: RefreshIndicator(
-          color: Colors.white,
-          backgroundColor: Colors.red,
+          color: Colors.red,
+          backgroundColor: Colors.white,
           child: Stack(
             children: <Widget>[
-              /*Container(
-                height: 250.0,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("images/home.jpeg"),
-                        fit: BoxFit.cover
-                    )
-                ),
-              ),*/
+              BackgroundWidget(),
               CustomScrollView(
                 controller: _scrollController,
                 slivers: <Widget>[
@@ -90,7 +86,12 @@ class _HomePageState extends State<HomePage> {
                     actions: <Widget>[
                       Row(
                         children: <Widget>[
-                          Icon(Icons.search),
+                         InkWell(
+                           onTap: (){
+                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> IndexPage(produtos: true,)));
+                           },
+                           child: Icon(Icons.search),
+                         ),
                           Container(
                             height: 30.0,
                             width: 1.0,
@@ -103,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                               children: <Widget>[
                                 InkWell(
                                   onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CarrinhoPage()));
                                   },
                                   child:Padding(padding: EdgeInsets.all(10), child:  Icon(Icons.shopping_cart,
                                     color:  Colors.white,)
@@ -346,7 +348,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-        onRefresh: _refresList),
+        onRefresh: _refreshList),
       ),
       onWillPop: () => UtilServices.onBackPressed(context)
     );

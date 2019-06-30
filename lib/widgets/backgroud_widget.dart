@@ -10,7 +10,7 @@ class BackgroundWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
           Colors.white,
-          Colors.grey
+          Colors.grey[100]
         ],
         begin: AlignmentDirectional.topCenter,
         end: AlignmentDirectional.bottomCenter

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.red,
             primarySwatch: Colors.grey,
           ),
-          home: IndexPage()
+          home: IndexPage(produtos: true,)
       ),
     );
   }
