@@ -9,8 +9,9 @@ class TitleWidget extends StatelessWidget {
   double marginBottom;
   double marginRight;
   double marginLeft;
+  Color color;
 
-  TitleWidget({@required this.text, this.fontSize, this.marginTop, this.marginBottom, this.marginLeft, this.marginRight});
+  TitleWidget({@required this.text, this.fontSize, this.marginTop, this.marginBottom, this.marginLeft, this.marginRight, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class TitleWidget extends StatelessWidget {
               style: TextStyle(
                   fontSize: fontSize != null ? fontSize-2.0 : 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[700]
+                  color: color != null ? color : Colors.grey[700]
               ),
             ),
           ),
@@ -39,7 +40,7 @@ class TitleWidget extends StatelessWidget {
             style: TextStyle(
                 fontFamily: "Roboto",
                 fontSize: fontSize != null ? fontSize : 20.0,
-                color: Colors.grey
+                color: color != null ? color : Colors.grey
             ),
           )
         ],
