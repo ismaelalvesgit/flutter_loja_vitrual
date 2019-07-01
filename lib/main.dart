@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/pages/finalizarPedido/finalizar_pedido_page.dart';
 import 'package:loja_virtual/pages/index_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.red,
             primarySwatch: Colors.grey,
           ),
-          home: IndexPage(produtos: true,)
+          home: FinalizarPedidoPage()
       ),
     );
   }

@@ -40,6 +40,12 @@ class _ProdutosPageState extends State<ProdutosPage> {
         break;
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,15 +74,17 @@ class _ProdutosPageState extends State<ProdutosPage> {
       ),
       floatingActionButton: Stack(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child:  IconButton(
-              onPressed: (){},
-              splashColor: Colors.grey,
-              icon: Icon(Icons.shopping_cart, color: Colors.white,),
+          InkWell(
+            onTap: (){
+
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(50.0)
+                ),
+                padding: EdgeInsets.all(10.0),
+                child:  Icon(Icons.shopping_cart, color: Colors.white, size: 30.0,)
             ),
           ),
           Positioned(
@@ -156,37 +164,100 @@ class _ProdutosPageState extends State<ProdutosPage> {
           ):
           SliverStaggeredGrid.countBuilder(
             crossAxisCount: 2,
-            itemCount: 3,
+            itemCount: 19,
             itemBuilder: (BuildContext content, int index) {
-              return Container(
-                child: CarouselSlider(
-                  viewportFraction: 1.0,
-                  aspectRatio: MediaQuery.of(content).size.aspectRatio,
-                  autoPlay: true,
-                  reverse: index == 2 ? false : true,
-                  scrollDirection: index.isEven ? Axis.horizontal : Axis.vertical,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  pauseAutoPlayOnTouch: Duration(seconds: 10),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  items: imgList.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(i),
-                                fit: BoxFit.cover
+              return InkWell(
+                onTap: (){},
+                borderRadius: BorderRadius.circular(19.0),
+                splashColor: Colors.red,
+                child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: index == 0 ? 10.0 : 5.0, bottom: index == 19 ? 10.0 : 5.0,),
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.star, color: Colors.pink, size: 18.0,),
+                                  Icon(Icons.star, color: Colors.pink, size: 18.0,),
+                                  Icon(Icons.star, color: Colors.pink, size: 18.0,),
+                                  Icon(Icons.star_border, color: Colors.pink, size: 18.0,),
+                                  Icon(Icons.star_border, color: Colors.pink, size: 18.0,),
+                                ],
+                              ),
+                              Icon(Icons.favorite, color: Colors.pink,)
+                            ],
+                          ),
+                          SizedBox(height: 10.0,),
+                          CarouselSlider(
+                            height: 200.0,
+                            viewportFraction: 1.0,
+                            aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration: Duration(milliseconds: 800),
+                            pauseAutoPlayOnTouch: Duration(seconds: 10),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            items: imgList.map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    height: 200.0,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(i),
+                                          fit: BoxFit.cover
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                          SizedBox(height: 10.0,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("R\$ 150,90",
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[700]
+                                ),
+                              ),
+                              InkWell(
+                                onTap: (){},
+                                borderRadius: BorderRadius.circular(1.0),
+                                splashColor: Colors.grey[700],
+                                child: Icon(Icons.add_shopping_cart, color: Colors.red,),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 10.0,),
+                          Text("produto xyz $index",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[700]
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }).toList(),
+                        ],
+                      ),
+                    )
                 ),
               );
             },
-            staggeredTileBuilder: (int index) => new StaggeredTile.count(1, index.isEven ? 1 : 2),
+            staggeredTileBuilder: (int index) => new StaggeredTile.count(1, MediaQuery.of(context).orientation.index == 0 ? 1.9 : 1.1),
           )
         ],
       ),
