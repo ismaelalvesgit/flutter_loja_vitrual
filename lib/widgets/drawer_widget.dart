@@ -79,7 +79,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             child: InkWell(
               onTap: () {},
               child: Text(
-                "Compre pelo telefone",
+                "Dúvidas e atendimento",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontFamily: "Roboto",

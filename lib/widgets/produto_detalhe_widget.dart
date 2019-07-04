@@ -17,6 +17,18 @@ class _ProdutoPageState extends State<ProdutoPage> {
 
     return result;
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   int _current = 0;
 
   final List<String> imgList = [
@@ -114,7 +126,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
-                Row(
+                Wrap(
                   children: <Widget>[
                     Text("300 QST",
                       style: TextStyle(

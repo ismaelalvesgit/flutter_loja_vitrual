@@ -44,53 +44,64 @@ class _FinalizarPedidoPageState extends State<FinalizarPedidoPage> {
               child: Column(
                 children: <Widget>[
                   Divider(color: Colors.grey[700],),
-                  SizedBox(height: 10.0,),
-                  ExpansionTile(
-                    title: Text("Cupom de desconto",
-                      style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontSize: 15.0,
-                          color: Colors.grey[700]
+                  Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child:  Column(
+                        children: <Widget>[
+                          ExpansionTile(
+                            title: Text("Cupom de desconto",
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 15.0,
+                                  color: Colors.grey[700]
+                              ),
+                            ),
+                            leading: Icon(Icons.tag_faces),
+                            trailing: Icon(Icons.card_giftcard),
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                                child: TextFormField(
+                                  cursorColor: Colors.red,
+                                  decoration: InputDecoration(
+                                      hintText: "Digite seu o Numero do cupom"
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10.0,),
+                          ExpansionTile(
+                            title: Text("Endereço de entrega",
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 15.0,
+                                  color: Colors.grey[700]
+                              ),
+                            ),
+                            leading: Icon(Icons.location_on),
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                                child: TextFormField(
+                                  cursorColor: Colors.red,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      hintText: "Digite seu Cep"
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    leading: Icon(Icons.tag_faces),
-                    trailing: Icon(Icons.card_giftcard),
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 20.0, right: 10.0),
-                        child: TextFormField(
-                          cursorColor: Colors.red,
-                          decoration: InputDecoration(
-                              hintText: "Digite seu o Numero do cupom"
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
-                  SizedBox(height: 10.0,),
-                  ExpansionTile(
-                    title: Text("Endereço de entrega",
-                      style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontSize: 15.0,
-                          color: Colors.grey[700]
-                      ),
-                    ),
-                    leading: Icon(Icons.location_on),
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 20.0, right: 10.0),
-                        child: TextFormField(
-                          cursorColor: Colors.red,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              hintText: "Digite seu Cep"
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0,),
                   Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)
@@ -192,6 +203,22 @@ class _FinalizarPedidoPageState extends State<FinalizarPedidoPage> {
                             ],
                           ),
                         ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Container(
+                    height: 40.0,
+                    width: double.maxFinite,
+                    child: RaisedButton(
+                      color: Colors.red,
+                      onPressed: (){},
+                      child: Text("FINALIZAR PEDIDO",
+                        style: TextStyle(
+                          fontFamily: "Roboto",
+                          fontSize: 15.0,
+                          color: Colors.white
+                        ),
                       ),
                     ),
                   )
