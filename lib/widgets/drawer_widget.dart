@@ -1,3 +1,4 @@
+import 'package:loja_virtual/pages/atendimentoTelefone/atendimento_telefone.dart';
 import 'package:loja_virtual/pages/configuracao/configuracao_page.dart';
 import 'package:loja_virtual/widgets/divider_widget.dart';
 import 'package:loja_virtual/widgets/drawer_tile.dart';
@@ -53,14 +54,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           DrawerTile(Icons.favorite_border, "Favoritos", pageController, 2),
           DrawerTile(Icons.shopping_basket, "Meus Pedidos", pageController, 3),
           DrawerTile(Icons.loyalty, "Meus Vales", pageController, 4),
-          DrawerTile(Icons.monetization_on, "Aqui tem Desconto", pageController, 5),
           DividerWidget(top: 10.0),
           Container(
             height: 20.0,
             width: double.maxFinite,
             margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AtendimentoTelefonePage()));
+              },
               child: Text(
                 "Atendimento pelo Telefone",
                 textAlign: TextAlign.start,
@@ -77,7 +79,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             width: double.maxFinite,
             margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AtendimentoTelefonePage()));
+              },
               child: Text(
                 "Dúvidas e atendimento",
                 textAlign: TextAlign.start,

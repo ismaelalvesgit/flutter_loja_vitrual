@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/pages/atendimentoTelefone/atendimento_telefone.dart';
 import 'package:loja_virtual/pages/configuracao/configuracao_page.dart';
 import 'package:loja_virtual/pages/home/home_page.dart';
 import 'package:loja_virtual/pages/departamentos/departamentos_page.dart';
 import 'package:loja_virtual/pages/favoritos/favoritos_page.dart';
 import 'package:loja_virtual/pages/meusPedidos/meus_pedidos_page.dart';
 import 'package:loja_virtual/pages/produtos/produtos_page.dart';
+import 'package:loja_virtual/pages/vales/vales_page.dart';
 
 //@Author Ismael Alves
 class IndexPage extends StatefulWidget {
@@ -51,6 +53,9 @@ class _IndexPageState extends State<IndexPage> {
 
           //Meus Pedidos Page
           MeusPedidosPage(pageController: _pageController,),
+
+          //Meus Vales Page
+          MeusValesPage(pageController: _pageController,),
 
           //Configuracao Page
           ConfiguracaoPage(pageController: _pageController,),
