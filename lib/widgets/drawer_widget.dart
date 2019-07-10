@@ -1,5 +1,7 @@
 import 'package:loja_virtual/pages/atendimentoTelefone/atendimento_telefone.dart';
 import 'package:loja_virtual/pages/configuracao/configuracao_page.dart';
+import 'package:loja_virtual/pages/duvidasAtendimento/duvidas_atendimento.dart';
+import 'package:loja_virtual/pages/sobre/sobre_app.dart';
 import 'package:loja_virtual/widgets/divider_widget.dart';
 import 'package:loja_virtual/widgets/drawer_tile.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +82,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AtendimentoTelefonePage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DuvidasAtendimentoPage()));
               },
               child: Text(
                 "Dúvidas e atendimento",
@@ -115,7 +117,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             width: double.maxFinite,
             margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SobreAppPage()));
+              },
               child: Text(
                 "Sobre o App",
                 textAlign: TextAlign.start,
