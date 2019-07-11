@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/bloc/slider_bloc.dart';
+import 'package:loja_virtual/bloc/user_bloc.dart';
 import 'package:loja_virtual/pages/carrinho/carrinho_page.dart';
 import 'package:loja_virtual/pages/index_page.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   final PageController pageController;
   final ScrollController _scrollController = new ScrollController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final SliderBloc bloc = BlocProvider.getBloc<SliderBloc>();
   _HomePageState({Key key, this.pageController});
 
   Future<String> _refreshList() async {
@@ -57,9 +56,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 6; i++){
-      bloc.inicialize();
-    }
+
   }
 
 
@@ -248,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         onPageChanged: (i) {
-                                           bloc.change(index, i);
+
                                         },
                                         items: imgList.map((i) {
                                           return Builder(

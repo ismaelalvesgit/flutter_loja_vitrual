@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loja_virtual/services/login_service.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,18 +15,28 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _keyScaffold = GlobalKey<ScaffoldState>();
   final _keyForm = GlobalKey<FormState>();
+  final _loginService = new LoginService();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final StreamController<bool> _isLoading = StreamController<bool>();
 
   @override
   void initState() {
     super.initState();
+    _isLoading.sink.add(false);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _isLoading.close();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -64,6 +77,9 @@ class _LoginPageState extends State<LoginPage> {
                                 TextFormField(
                                   keyboardType: TextInputType.emailAddress,
                                   controller: _emailController,
+                                  validator: (text){
+                                    if(text.isEmpty || !text.contains("@")) return "E-mail inválido!";
+                                  },
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -95,6 +111,9 @@ class _LoginPageState extends State<LoginPage> {
                                   keyboardType: TextInputType.text,
                                   obscureText: true,
                                   controller: _passwordController,
+                                  validator: (text){
+                                    if(text.isEmpty || text.length < 6) return "Senha inválida!";
+                                  },
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -123,25 +142,57 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 SizedBox(height: 30.0),
-                                Container(
-                                  height: 40.0,
-                                  width: double.maxFinite,
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    color: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0)
-                                    ),
-                                    child: Text(
-                                      "LOGIN",
-                                      style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 15.0,
-                                        color: Colors.white
+                                StreamBuilder(
+                                  stream: _isLoading.stream,
+                                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot){
+                                  print(snapshot.data);
+                                  if(snapshot.hasData){
+                                    return snapshot.data ? CircularProgressIndicator( valueColor:  new AlwaysStoppedAnimation<Color>(Colors.white)) : Container(
+                                      height: 40.0,
+                                      width: double.maxFinite,
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            if(_keyForm.currentState.validate()){
+                                              _isLoading.sink.add(true);
+                                              _loginService.login(_emailController.text, _passwordController.text)
+                                                  .then((rs){
+                                                print("certo $rs");
+                                              }).catchError((e){
+                                                _keyScaffold.currentState.showSnackBar(
+                                                    SnackBar(content: Text(_loginService.errorTreatment(e),
+                                                      style: TextStyle(
+                                                          fontSize: 15.0,
+                                                          fontFamily: "Roboto"
+                                                      ),
+                                                    ),
+                                                      backgroundColor: Colors.redAccent,
+                                                      duration: Duration(seconds: 3),
+                                                    )
+                                                );
+                                                Future.delayed(Duration(seconds: 3)).then((_){
+                                                  _isLoading.sink.add(false);
+                                                });
+                                              });
+                                            }
+                                          },
+                                          color: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20.0)
+                                          ),
+                                          child:  Text(
+                                            "LOGIN",
+                                            style: TextStyle(
+                                                fontFamily: "Roboto",
+                                                fontSize: 15.0,
+                                                color: Colors.white
+                                            ),
+                                          )
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    );
+                                  }else{
+                                    return Container(width: 0.0, height: 0.0,);
+                                  }
+                                }),
                                 SizedBox(height: 30.0),
                                 Container(
                                   height: 20.0,

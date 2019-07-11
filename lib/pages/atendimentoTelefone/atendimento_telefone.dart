@@ -18,7 +18,7 @@ class _AtendimentoTelefonePageState extends State<AtendimentoTelefonePage> {
     return SafeArea(
       top: false,
       bottom: false,
-      child: Scaffold(
+      child: Scaffold(  
           key: _scaffoldKey,
           body: Stack(
             children: <Widget>[
