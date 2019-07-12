@@ -1,7 +1,53 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loja_virtual/pages/acesso/login/login_page.dart';
+import 'package:loja_virtual/pages/acesso/reset/reset_page.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class CadastroPageRoute extends CupertinoPageRoute {
+  CadastroPageRoute()
+      : super(builder: (BuildContext context) => new CadastroPage());
+
+
+  // OPTIONAL IF YOU WISH TO HAVE SOME EXTRA ANIMATION WHILE ROUTING
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+     return new ScaleTransition(
+      scale: new Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Interval(
+            0.10,
+            0.50,
+            curve: Curves.easeOut,
+          ),
+        ),
+      ),
+      child: ScaleTransition(
+        scale: Tween<double>(
+          begin: 2.0,
+          end: 1.0,
+        ).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Interval(
+              0.10,
+              1.00,
+              curve: Curves.linear,
+            ),
+          ),
+        ),
+        child: CadastroPage(),
+      ),
+    );
+  }
+}
 
 //@Author Ismael Alves
 class CadastroPage extends StatefulWidget {
@@ -163,7 +209,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       borderRadius: BorderRadius.circular(20.0)
                                     ),
                                     child: Text(
-                                      "LOGIN",
+                                      "CADASTRA-SE",
                                       style: TextStyle(
                                         fontFamily: "Roboto",
                                         fontSize: 15.0,
@@ -177,7 +223,9 @@ class _CadastroPageState extends State<CadastroPage> {
                                   height: 20.0,
                                   width: double.maxFinite,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> ResetPage()));
+                                    },
                                     child: Text(
                                       "Reste da Senha",
                                       textAlign: TextAlign.center,
@@ -194,12 +242,14 @@ class _CadastroPageState extends State<CadastroPage> {
                                   height: 20.0,
                                   width: double.maxFinite,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                                    },
                                     child: Row(
                                       crossAxisAlignment:CrossAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.max,
                                       children: <Widget>[
-                                        Text("Voce não tem conta? Clique Aqui",
+                                        Text("Voce já tem conta?",
                                           style: TextStyle(
                                             fontFamily: "Roboto",
                                             fontSize: 13.0,
@@ -207,7 +257,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                           ),
                                         ),
                                         SizedBox(width: 10.0,),
-                                        Text("Crie agora !",
+                                        Text("Faça o login agora !",
                                           style: TextStyle(
                                             fontFamily: "Roboto",
                                             fontSize: 15.0,

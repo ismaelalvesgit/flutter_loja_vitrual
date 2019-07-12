@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loja_virtual/pages/acesso/cadastro/cadastro_page.dart';
+import 'package:loja_virtual/pages/acesso/reset/reset_page.dart';
 import 'package:loja_virtual/services/login_service.dart';
 import 'package:loja_virtual/util_service/util_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
   }
 
   @override
@@ -198,7 +201,9 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 20.0,
                                   width: double.maxFinite,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> ResetPage()));
+                                    },
                                     child: Text(
                                       "Reste da Senha",
                                       textAlign: TextAlign.center,
@@ -215,7 +220,9 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 20.0,
                                   width: double.maxFinite,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).pushReplacement(CadastroPageRoute());
+                                    },
                                     child: Row(
                                       crossAxisAlignment:CrossAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.max,
